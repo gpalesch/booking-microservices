@@ -1,0 +1,54 @@
+services:
+  room-service:
+    build: ./room
+    ports:
+      - "3001:3000"
+    environment:
+      - PORT=3000
+    depends_on:
+      - mongo-room
+    networks:
+      - app-network
+
+  reservation-service:
+    build: ./reservation
+    ports:
+      - "3002:3000"
+    environment:
+      - PORT=3000
+    depends_on:
+      - mongo-reservation
+    networks:
+      - app-network
+
+  auth-service:
+    build: ./auth
+    ports:
+      - "3003:3000"
+    environment:
+      - PORT=3000
+    depends_on:
+      - mongo-auth
+    networks:
+      - app-network
+
+
+  # MongoDB instances for each service
+  mongo-room:
+    image: mongo
+    networks:
+      - app-network
+  mongo-reservation:
+    image: mongo
+    networks:
+      - app-network
+
+  mongo-auth:
+    image: mongo
+    networks:
+      - app-network
+
+
+networks:
+  app-network:
+    driver: bridge
