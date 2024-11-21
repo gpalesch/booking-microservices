@@ -4,33 +4,42 @@ services:
   room-service:
     build: ./room
     ports:
-      - "3001:3000"
+      - "3001:3004"
     environment:
-      - PORT=3000
+      - PORT=3004
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
     depends_on:
       - mongo-room
+      - rabbitmq
     networks:
       - app-network
 
   reservation-service:
     build: ./reservation
     ports:
-      - "3002:3000"
+      - "3002:3005"
     environment:
-      - PORT=3000
+      - PORT=3005
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
     depends_on:
       - mongo-reservation
+      - rabbitmq
     networks:
       - app-network
 
   auth-service:
     build: ./auth
     ports:
-      - "3003:3000"
+      - "3003:3006"
     environment:
-      - PORT=3000
+      - PORT=3006
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
     depends_on:
       - mongo-auth
+      - rabbitmq
     networks:
       - app-network
 
@@ -65,18 +74,18 @@ services:
     build:
       context: ./gateway
     ports:
-      - "3000:3000"
+      - "3004:3007"
     depends_on:
       - room-service
       - reservation-service
       - auth-service
     environment:
       AUTH_SERVICE_HOST: auth-service
-      AUTH_SERVICE_PORT: 3000
+      AUTH_SERVICE_PORT: 3006
       RESERVATION_SERVICE_HOST: reservation-service
-      RESERVATION_SERVICE_PORT: 3000
+      RESERVATION_SERVICE_PORT: 3005
       ROOM_SERVICE_HOST: room-service
-      ROOM_SERVICE_PORT: 3000
+      ROOM_SERVICE_PORT: 3004
     networks:
       - app-network
 

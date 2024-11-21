@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const setupSwagger = require('./swagger');
 const reservationRoutes = require('./routes/reservationRoutes');
 const { consumeFromQueue, sendToQueue } = require('./amqplib');
 
