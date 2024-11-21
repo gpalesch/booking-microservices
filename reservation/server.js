@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const reservationRoutes = require('./routes/reservationRoutes');
+const { consumeFromQueue, sendToQueue } = require('./amqplib');
 
 const app = express();
 app.use(express.json());
@@ -17,5 +18,11 @@ mongoose
 
 app.use('/reservations', reservationRoutes);
 
+setupSwagger(app);
+
+consumeFromQueue('reservation_requests', (message) => {
+    console.log(`Received message in reservation service: ${message}`);
+});
+
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`room service running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Reservation service running on port ${PORT}`));
