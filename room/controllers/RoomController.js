@@ -1,19 +1,17 @@
-const Room = require('../models/room'); // Importer le modèle Room
+const Room = require('../models/room');  
 
-// Récupérer toutes les chambres
 const getAllRooms = async (req, res) => {
     try {
-        const rooms = await Room.find(); // Récupère toutes les chambres
+        const rooms = await Room.find(); 
         res.status(200).json(rooms);
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la récupération des chambres', error });
     }
 };
 
-// Récupérer une chambre par ID
 const getRoomById = async (req, res) => {
     try {
-        const room = await Room.findById(req.params.id); // Récupère la chambre par ID
+        const room = await Room.findById(req.params.id); 
         if (!room) {
             return res.status(404).json({ message: 'Chambre non trouvée' });
         }
@@ -23,12 +21,10 @@ const getRoomById = async (req, res) => {
     }
 };
 
-// Ajouter une nouvelle chambre
 const createRoom = async (req, res) => {
     try {
         const { roomNumber, type, price, description } = req.body;
 
-        // Vérifier si le numéro de chambre est déjà utilisé
         const existingRoom = await Room.findOne({ roomNumber });
         if (existingRoom) {
             return res.status(400).json({ message: 'Le numéro de chambre est déjà utilisé' });
@@ -41,14 +37,13 @@ const createRoom = async (req, res) => {
             description,
         });
 
-        const savedRoom = await newRoom.save(); // Enregistrer la chambre
+        const savedRoom = await newRoom.save(); 
         res.status(201).json(savedRoom);
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la création de la chambre', error });
     }
 };
 
-// Mettre à jour une chambre par ID
 const updateRoom = async (req, res) => {
     try {
         const { id } = req.params;
@@ -57,7 +52,7 @@ const updateRoom = async (req, res) => {
         const updatedRoom = await Room.findByIdAndUpdate(
             id,
             { type, price, description, isAvailable },
-            { new: true, runValidators: true } // Renvoie le document mis à jour
+            { new: true, runValidators: true } 
         );
 
         if (!updatedRoom) {
@@ -70,7 +65,6 @@ const updateRoom = async (req, res) => {
     }
 };
 
-// Supprimer une chambre par ID
 const deleteRoom = async (req, res) => {
     try {
         const { id } = req.params;

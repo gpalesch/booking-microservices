@@ -1,6 +1,5 @@
 const Reservation = require('../models/Reservation');
 
-// Récupérer toutes les réservations
 const getAllReservations = async (req, res) => {
     try {
         const reservations = await Reservation.find();
@@ -10,7 +9,6 @@ const getAllReservations = async (req, res) => {
     }
 };
 
-// Récupérer une réservation par ID
 const getReservationById = async (req, res) => {
     try {
         const reservation = await Reservation.findById(req.params.id);
@@ -23,17 +21,14 @@ const getReservationById = async (req, res) => {
     }
 };
 
-// Créer une réservation
 const createReservation = async (req, res) => {
     try {
         const { user, room, checkInDate, checkOutDate, totalPrice } = req.body;
 
-        // Validation des données
         if (new Date(checkInDate) >= new Date(checkOutDate)) {
             return res.status(400).json({ message: 'La date de départ doit être après la date d’arrivée' });
         }
 
-        // Vérification de conflit avec une réservation existante
         const existingReservation = await Reservation.findOne({
             room,
             status: 'confirmed',
@@ -47,7 +42,6 @@ const createReservation = async (req, res) => {
             return res.status(400).json({ message: 'Cette chambre est déjà réservée pour les dates sélectionnées' });
         }
 
-        // Création de la réservation
         const newReservation = new Reservation({
             user,
             room,
@@ -63,7 +57,6 @@ const createReservation = async (req, res) => {
     }
 };
 
-// Annuler une réservation
 const cancelReservation = async (req, res) => {
     try {
         const { id } = req.params;
@@ -84,7 +77,6 @@ const cancelReservation = async (req, res) => {
     }
 };
 
-// Supprimer une réservation
 const deleteReservation = async (req, res) => {
     try {
         const { id } = req.params;

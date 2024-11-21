@@ -5,7 +5,6 @@ const User = require('../models/User');
 
 const router = express.Router();
 
-// Register User
 router.post('/register', async (req, res) => {
     const { username, password, role } = req.body;
     try {
@@ -17,7 +16,6 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Login User
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
     const user = await User.findOne({ username });

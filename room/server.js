@@ -6,7 +6,6 @@ const roomRoutes = require('./routes/roomRoutes');
 const app = express();
 app.use(express.json());
 
-// Connect to MongoDB
 mongoose
     .connect(process.env.MONGO_URI)
     .then(() => {
@@ -16,7 +15,6 @@ mongoose
         console.log(`Database connection error: ${error}`);
     });
 
-// Routes
 app.use('/rooms', roomRoutes);
 
 const PORT = process.env.PORT || 3000;
