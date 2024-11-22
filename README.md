@@ -54,3 +54,7 @@ Une fois les services démarrés, vous pouvez accéder à Swagger UI pour chaque
 - **Auth Service** : [http://localhost:3003/api-docs](http://localhost:3003/api-docs)
 
 Cela vous permettra de voir tous les endpoints disponibles pour chaque service et d'interagir avec eux directement via l'interface Swagger.
+
+# Lien vers présentation
+
+https://pitch.com/v/ai-microservices-architecture-deep-dive-snzzrz
