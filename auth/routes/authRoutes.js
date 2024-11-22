@@ -75,9 +75,20 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
     try {
+        console.log('Login request received:', { username, password });
+
         const user = await User.findOne({ username });
-        if (!user || !(await bcrypt.compare(password, user.password))) {
-            return res.status(400).json({ error: 'Invalid credentials' });
+        console.log('User found:', user);
+
+        if (!user) {
+            return res.status(400).json({ error: 'Invalid username' });
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        console.log('Password valid:', isPasswordValid);
+
+        if (!isPasswordValid) {
+            return res.status(400).json({ error: 'Invalid password' });
         }
 
         const token = jwt.sign(
@@ -85,8 +96,11 @@ router.post('/login', async (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: '1h' }
         );
+        console.log('JWT token generated:', token);
+
         res.json({ token });
     } catch (error) {
+        console.error('Error during login:', error);
         res.status(500).json({ error: error.message });
     }
 });

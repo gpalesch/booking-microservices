@@ -4,19 +4,28 @@ let connection;
 let channel;
 
 async function connectToRabbitMQ() {
-  try {
-    if (!connection) {
-      connection = await amqp.connect('amqp://admin:admin@rabbitmq');
-      console.log('Connected to RabbitMQ');
-    }
-    if (!channel) {
-      channel = await connection.createChannel();
-    }
-    return channel;
-  } catch (error) {
-    console.error('Error connecting to RabbitMQ:', error);
-    throw error;
+  const retryInterval = 5000; // Temps d'attente entre chaque tentative (5s)
+  const maxRetries = 10;     // Nombre maximum de tentatives
+  let retries = 0;
+
+  while (retries < maxRetries) {
+      try {
+          if (!connection) {
+              connection = await amqp.connect('amqp://admin:admin@rabbitmq:5672');
+              console.log('Connected to RabbitMQ');
+          }
+          if (!channel) {
+              channel = await connection.createChannel();
+          }
+          return channel;
+      } catch (error) {
+          retries++;
+          console.error(`Error connecting to RabbitMQ: ${error.message}. Retrying in ${retryInterval / 1000}s... (${retries}/${maxRetries})`);
+          await new Promise(resolve => setTimeout(resolve, retryInterval));
+      }
   }
+
+  throw new Error('Unable to connect to RabbitMQ after multiple retries');
 }
 
 async function sendToQueue(queue, message) {

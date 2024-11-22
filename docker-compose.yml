@@ -9,6 +9,10 @@ services:
       - PORT=3004
       - RABBITMQ_HOST=rabbitmq
       - RABBITMQ_PORT=5672
+      - RABBITMQ_VHOST=my_vhost
+      - MONGO_HOST=mongo-room
+      - RABBITMQ_USER=admin
+      - RABBITMQ_PASSWORD=admin
     depends_on:
       - mongo-room
       - rabbitmq
@@ -23,6 +27,10 @@ services:
       - PORT=3005
       - RABBITMQ_HOST=rabbitmq
       - RABBITMQ_PORT=5672
+      - RABBITMQ_VHOST=my_vhost
+      - MONGO_HOST=mongo-room
+      - RABBITMQ_USER=admin
+      - RABBITMQ_PASSWORD=admin
     depends_on:
       - mongo-reservation
       - rabbitmq
@@ -37,6 +45,11 @@ services:
       - PORT=3006
       - RABBITMQ_HOST=rabbitmq
       - RABBITMQ_PORT=5672
+      - JWT_SECRET=your_jwt_secret_key
+      - RABBITMQ_VHOST=my_vhost
+      - MONGO_HOST=mongo-room
+      - RABBITMQ_USER=admin
+      - RABBITMQ_PASSWORD=admin
     depends_on:
       - mongo-auth
       - rabbitmq

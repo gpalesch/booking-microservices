@@ -1,29 +1,43 @@
 require('dotenv').config();
 const express = require('express');
-const setupSwagger = require('./swagger');
 const mongoose = require('mongoose');
-const authRoutes = require('./routes/authRoutes');
+const setupSwagger = require('./swagger');
+const roomRoutes = require('./routes/authRoutes');
 const { consumeFromQueue, sendToQueue } = require('./amqplib');
 
 const app = express();
 app.use(express.json());
+process.env.MONGO_URI = "mongodb://mongo-auth:27017/authdb";
 
-mongoose
-    .connect(process.env.MONGO_URI)
-    .then(() => {
+async function connectToDatabase() {
+    try {
+        console.log(`Connecting to MongoDB at ${process.env.MONGO_URI}`);
+        await mongoose.connect(process.env.MONGO_URI);
         console.log('Database connected');
-    })
-    .catch((error) => {
-        console.log(`Database connection error: ${error}`);
-    });
+    } catch (error) {
+        console.error('Database connection error:', error);
+        process.exit(1); 
+    }
+}
 
-app.use('/auth', authRoutes);
+app.use('/auth', roomRoutes);
 
 setupSwagger(app);
 
-consumeFromQueue('user_registration', (message) => {
-    console.log(`Received message in auth service: ${message}`);
-});
+(async function setupRabbitMQ() {
+    try {
+        console.log(`Attempting to connect to RabbitMQ at ${process.env.RABBITMQ_HOST}:${process.env.RABBITMQ_PORT}`);
+        await consumeFromQueue('room_updates', (message) => {
+            console.log(`Received message in room service: ${message}`);
+        });
+        console.log('RabbitMQ connection established');
+    } catch (error) {
+        console.error('Error connecting to RabbitMQ:', error);
+        process.exit(1); 
+    }
+})();
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Auth service running on port ${PORT}`));
+connectToDatabase().then(() => {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => console.log(`Room service running on port ${PORT}`));
+});
