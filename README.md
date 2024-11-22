@@ -1,15 +1,15 @@
-# restaurant-microservices
+# Booking-microservices
 
 ## Description du projet
 
-Ce projet est un système de gestion de réservations de salles basé sur une architecture de microservices. Il utilise plusieurs services indépendants qui communiquent entre eux via RabbitMQ pour assurer l'efficacité et l'isolation des erreurs. Chaque service est développé avec **Node.js** et **Express**, et utilise **MongoDB** pour le stockage des données. Le système inclut la gestion des utilisateurs, la vérification de la disponibilité des salles, la gestion des réservations, et l'authentification sécurisée via JWT.
+Ce projet est un système de gestion de réservations de chambres basé sur une architecture de microservices. Il utilise plusieurs services indépendants qui communiquent entre eux via RabbitMQ pour assurer l'efficacité et l'isolation des erreurs. Chaque service est développé avec **Node.js** et **Express**, et utilise **MongoDB** pour le stockage des données. Le système inclut la gestion des utilisateurs, la vérification de la disponibilité des chambres, la gestion des réservations, et l'authentification sécurisée via JWT.
 
 ## Technologies utilisées
 
 - **Node.js** : Environnement d'exécution pour JavaScript côté serveur.
 - **Express** : Framework web pour Node.js, utilisé pour créer les API.
-- **MongoDB** : Base de données NoSQL pour le stockage des données des utilisateurs, des réservations, et des informations sur les salles.
-- **RabbitMQ** : Broker de messages pour la communication asynchrone entre les microservices (par exemple, vérification de la disponibilité des salles).
+- **MongoDB** : Base de données NoSQL pour le stockage des données des utilisateurs, des réservations, et des informations sur les chambres.
+- **RabbitMQ** : Broker de messages pour la communication asynchrone entre les microservices (par exemple, vérification de la disponibilité des chambres).
 - **Docker** : Conteneurisation des services pour une gestion simplifiée.
 - **Docker Compose** : Outil pour définir et exécuter des applications multi-conteneurs.
 - **JWT (JSON Web Tokens)** : Pour l'authentification sécurisée des utilisateurs.
