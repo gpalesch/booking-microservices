@@ -26,6 +26,7 @@ Ce projet est un système de gestion de réservations de chambres basé sur une 
 
 2. **Copier le fichier `.env.example` pour tous les microservices et l'API Gateway** :
    - Dans chaque dossier de service (`auth-service`, `reservation-service`, `room-service`, `gateway`), crée un fichier `.env` en copiant le fichier `.env.example` :
+   
      ```bash
      cp .env.example .env
      ```
