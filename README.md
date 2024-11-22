@@ -26,7 +26,7 @@ Ce projet est un système de gestion de réservations de chambres basé sur une 
 
 2. **Copier le fichier `.env.example` pour tous les microservices et l'API Gateway** :
    - Dans chaque dossier de service (`auth-service`, `reservation-service`, `room-service`, `gateway`), crée un fichier `.env` en copiant le fichier `.env.example` :
-   
+
      ```bash
      cp .env.example .env
      ```
@@ -41,14 +41,16 @@ Ce projet est un système de gestion de réservations de chambres basé sur une 
 
    Cela construira et démarrera tous les services définis dans le fichier `docker-compose.yml`.
 
-## API Documentation
+# Documentation de l'API
 
-Ce projet utilise [Swagger](http://localhost:3000/api-docs) pour la documentation de l'API. Vous pouvez consulter tous les endpoints et tester directement l'API via l'interface interactive.
+Ce projet utilise [Swagger](https://swagger.io) pour documenter l'API. Vous pouvez consulter tous les endpoints et tester directement l'API via l'interface interactive.
 
 ### Accéder à Swagger UI
 
-Une fois que les services sont démarrés, accédez à Swagger UI à l'adresse suivante :
+Une fois les services démarrés, vous pouvez accéder à Swagger UI pour chaque service via les liens suivants :
 
-[Swagger UI](http://localhost:3000/api-docs)
+- **Room Service** : [http://localhost:3001/api-docs](http://localhost:3001/api-docs)
+- **Reservation Service** : [http://localhost:3002/api-docs](http://localhost:3002/api-docs)
+- **Auth Service** : [http://localhost:3003/api-docs](http://localhost:3003/api-docs)
 
-Cela vous permettra de voir tous les endpoints disponibles et d'interagir avec eux.
+Cela vous permettra de voir tous les endpoints disponibles pour chaque service et d'interagir avec eux directement via l'interface Swagger.
